@@ -1,9 +1,18 @@
-﻿namespace CarAuctionsSystem.Domain;
+﻿using System.ComponentModel;
+
+namespace CarAuctionsSystem.Domain;
 
 public enum VehicleType
 {
-    Hatchback = 1,
-    Sedan = 2,
-    SUV = 3,
-    Truck = 4
+    [Description("Hatchback")]
+    Hatchback,
+
+    [Description("Sedan")]
+    Sedan,
+
+    [Description("SUV")]
+    SUV,
+
+    [Description("Truck")]
+    Truck
 }

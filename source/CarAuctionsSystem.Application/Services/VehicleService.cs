@@ -29,6 +29,19 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     }
 
     /// <summary>
+    /// Search for vehicles based on criteria.
+    /// </summary>
+    public async Task<List<Vehicle>> Search(SearchVehicleCriteriaDto criteria)
+    {
+        return await _vehicleRepository.Search(
+            criteria.Type,
+            criteria.Manufacturer,
+            criteria.Model,
+            criteria.Year
+        );
+    }
+
+    /// <summary>
     /// Adds a new vehicle.
     /// </summary>
     public async Task<Vehicle> Add(CreateVehicleDto vehicle)

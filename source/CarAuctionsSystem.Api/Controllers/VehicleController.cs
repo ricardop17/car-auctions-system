@@ -47,6 +47,18 @@ public class VehicleController : ControllerBase
         return Ok(vehicles);
     }
 
+    [HttpPost("search")]
+    public async Task<ActionResult> Search([FromBody] SearchVehicleCriteriaDto criteria)
+    {
+        _logger.LogInformation("Search for vehicles");
+
+        var vehicles = await _vehicleService.Search(criteria);
+
+        _logger.LogInformation("Done searching vehicles");
+
+        return Ok(vehicles);
+    }
+
     [HttpPost]
     public async Task<ActionResult> Create(CreateVehicleDto createVehicleDto)
     {

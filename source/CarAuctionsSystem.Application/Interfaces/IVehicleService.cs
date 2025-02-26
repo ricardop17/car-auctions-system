@@ -5,7 +5,8 @@ namespace CarAuctionsSystem.Application.Interfaces;
 
 public interface IVehicleService
 {
-    Task<List<Vehicle>> GetAll();
     Task<Vehicle?> GetById(string id);
+    Task<List<Vehicle>> GetAll();
+    Task<List<Vehicle>> Search(SearchVehicleCriteriaDto criteria);
     Task<Vehicle> Add(CreateVehicleDto vehicle);
 }

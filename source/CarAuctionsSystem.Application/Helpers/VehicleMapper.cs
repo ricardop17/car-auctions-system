@@ -14,7 +14,9 @@ public static class VehicleMapper
     /// </summary>
     public static Vehicle Convert(CreateVehicleDto request)
     {
-        return request.Type switch
+        var parsedType = Enum.Parse<VehicleType>(request.Type);
+
+        return parsedType switch
         {
             VehicleType.Hatchback => CreateHatchback(request),
             VehicleType.Sedan => CreateSedan(request),
