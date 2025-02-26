@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{90C0F470-C327-4E41-89A3-2F4AEB1F159A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionsSystem.Domain", "source\CarAuctionsSystem.Domain\CarAuctionsSystem.Domain.csproj", "{6B8A6114-273C-4F37-AB98-A59E00D04E16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionsSystem.Application", "source\CarAuctionsSystem.Application\CarAuctionsSystem.Application.csproj", "{EA97D673-F9EE-4F0F-B148-DDACC92663D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionsSystem.Infrastructure", "source\CarAuctionsSystem.Infrastructure\CarAuctionsSystem.Infrastructure.csproj", "{1E426097-BEC1-445F-982B-6679B3532A1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionsSystem.Api", "source\CarAuctionsSystem.Api\CarAuctionsSystem.Api.csproj", "{0A4786BC-6BB5-4C96-ADFA-845A58680A60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E53C7C66-4614-4BCE-BA21-15029A76C2BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionsSystem.Tests", "tests\CarAuctionsSystem.Tests\CarAuctionsSystem.Tests.csproj", "{62122A33-37D0-466F-AC86-A9DDB16F18C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B8A6114-273C-4F37-AB98-A59E00D04E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B8A6114-273C-4F37-AB98-A59E00D04E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B8A6114-273C-4F37-AB98-A59E00D04E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B8A6114-273C-4F37-AB98-A59E00D04E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA97D673-F9EE-4F0F-B148-DDACC92663D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA97D673-F9EE-4F0F-B148-DDACC92663D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA97D673-F9EE-4F0F-B148-DDACC92663D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA97D673-F9EE-4F0F-B148-DDACC92663D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E426097-BEC1-445F-982B-6679B3532A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E426097-BEC1-445F-982B-6679B3532A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E426097-BEC1-445F-982B-6679B3532A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E426097-BEC1-445F-982B-6679B3532A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4786BC-6BB5-4C96-ADFA-845A58680A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4786BC-6BB5-4C96-ADFA-845A58680A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4786BC-6BB5-4C96-ADFA-845A58680A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4786BC-6BB5-4C96-ADFA-845A58680A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62122A33-37D0-466F-AC86-A9DDB16F18C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62122A33-37D0-466F-AC86-A9DDB16F18C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62122A33-37D0-466F-AC86-A9DDB16F18C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62122A33-37D0-466F-AC86-A9DDB16F18C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6B8A6114-273C-4F37-AB98-A59E00D04E16} = {90C0F470-C327-4E41-89A3-2F4AEB1F159A}
+		{EA97D673-F9EE-4F0F-B148-DDACC92663D0} = {90C0F470-C327-4E41-89A3-2F4AEB1F159A}
+		{1E426097-BEC1-445F-982B-6679B3532A1A} = {90C0F470-C327-4E41-89A3-2F4AEB1F159A}
+		{0A4786BC-6BB5-4C96-ADFA-845A58680A60} = {90C0F470-C327-4E41-89A3-2F4AEB1F159A}
+		{62122A33-37D0-466F-AC86-A9DDB16F18C9} = {E53C7C66-4614-4BCE-BA21-15029A76C2BF}
+	EndGlobalSection
+EndGlobal
