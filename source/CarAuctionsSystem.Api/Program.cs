@@ -1,4 +1,5 @@
 using CarAuctionsSystem.Api;
+using CarAuctionsSystem.Api.Middlewares;
 using CarAuctionsSystem.Application;
 using CarAuctionsSystem.Infrastructure;
 
@@ -24,5 +25,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();
