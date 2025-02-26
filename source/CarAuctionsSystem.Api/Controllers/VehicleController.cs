@@ -1,4 +1,5 @@
 using CarAuctionsSystem.Application.Interfaces;
+using CarAuctionsSystem.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarAuctionsSystem.Api.Controllers;
@@ -17,16 +18,50 @@ public class VehicleController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetById()
+    public async Task<ActionResult> GetById(string id)
     {
-        var vehicle = await _vehicleService.GetById("123");
+        _logger.LogInformation("Getting vehicle by id: {id}", id);
+
+        var vehicle = await _vehicleService.GetById(id);
+
+        if (vehicle == null)
+        {
+            _logger.LogWarning("Vehicle with id {id} not found", id);
+            return NotFound();
+        }
+
+        _logger.LogInformation("Vehicle with id {id} found", id);
+
         return Ok(vehicle);
     }
 
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
+        _logger.LogInformation("Getting all vehicles");
+
         var vehicles = await _vehicleService.GetAll();
+
+        _logger.LogInformation("Done getting all vehicles");
+
         return Ok(vehicles);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create(CreateVehicleDto createVehicleDto)
+    {
+        _logger.LogInformation("Starting to create a new vehicle");
+
+        var vehicle = await _vehicleService.Add(createVehicleDto);
+
+        if (vehicle == null)
+        {
+            _logger.LogWarning("Failed to create a new vehicle");
+            return BadRequest();
+        }
+
+        _logger.LogInformation("Successfully created a new vehicle");
+
+        return Ok(vehicle.Id);
     }
 }

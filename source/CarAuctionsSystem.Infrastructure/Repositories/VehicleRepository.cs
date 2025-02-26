@@ -13,7 +13,7 @@ public class VehicleRepository : IVehicleRepository
             Manufacturer = "Ford",
             Model = "Fiesta",
             Year = 2017,
-            StartingBidEuros = 8000,
+            StartingBidInEuros = 8000,
             NumberOfDoors = 5
         },
         new Sedan
@@ -22,7 +22,7 @@ public class VehicleRepository : IVehicleRepository
             Manufacturer = "BMW",
             Model = "M70",
             Year = 2017,
-            StartingBidEuros = 8000,
+            StartingBidInEuros = 8000,
             NumberOfDoors = 5
         },
         new Suv
@@ -31,7 +31,7 @@ public class VehicleRepository : IVehicleRepository
             Manufacturer = "Audi",
             Model = "Q7",
             Year = 2017,
-            StartingBidEuros = 8000,
+            StartingBidInEuros = 8000,
             NumberOfSeats = 5
         },
         new Truck
@@ -40,7 +40,7 @@ public class VehicleRepository : IVehicleRepository
             Manufacturer = "Volvo",
             Model = "FH16",
             Year = 2017,
-            StartingBidEuros = 8000,
+            StartingBidInEuros = 8000,
             LoadCapacityKg = 20000
         }
     ];
@@ -55,9 +55,9 @@ public class VehicleRepository : IVehicleRepository
         return Task.FromResult(_vehicles.FirstOrDefault(v => v.Id == id));
     }
 
-    public Task Add(Vehicle vehicle)
+    public Task<Vehicle> Add(Vehicle vehicle)
     {
         _vehicles.Add(vehicle);
-        return Task.CompletedTask;
+        return Task.FromResult(vehicle);
     }
 }

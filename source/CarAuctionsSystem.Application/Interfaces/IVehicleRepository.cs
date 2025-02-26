@@ -6,5 +6,5 @@ public interface IVehicleRepository
 {
     Task<List<Vehicle>> GetAll();
     Task<Vehicle?> GetById(string id);
-    Task Add(Vehicle vehicle);
+    Task<Vehicle> Add(Vehicle vehicle);
 }

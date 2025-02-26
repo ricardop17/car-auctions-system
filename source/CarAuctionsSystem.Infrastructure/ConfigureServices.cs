@@ -8,7 +8,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddSingleton<IVehicleRepository, VehicleRepository>();
 
         return services;
     }
