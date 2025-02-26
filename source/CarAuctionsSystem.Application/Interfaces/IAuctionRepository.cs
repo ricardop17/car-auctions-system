@@ -4,6 +4,7 @@ namespace CarAuctionsSystem.Application.Interfaces
 {
     public interface IAuctionRepository
     {
-        List<Auction> GetAll();
+        Task<Auction?> GetById(string id);
+        Task<List<Auction>> GetAll();
     }
 }

@@ -5,8 +5,15 @@ namespace CarAuctionsSystem.Infrastructure.Repositories;
 
 public class AuctionRepository : IAuctionRepository
 {
-    public List<Auction> GetAll()
+    private readonly List<Auction> _auctions = [];
+
+    public Task<Auction?> GetById(string id)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(_auctions.FirstOrDefault(a => a.Id == id));
+    }
+
+    public Task<List<Auction>> GetAll()
+    {
+        return Task.FromResult(_auctions);
     }
 }

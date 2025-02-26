@@ -14,6 +14,7 @@ public static class ConfigureServices
         services.AddScoped<IVehicleService, VehicleService>();
         services.AddScoped<IValidator<SearchVehicleCriteriaDto>, SearchVehicleValidator>();
         services.AddScoped<IValidator<CreateVehicleDto>, CreateVehicleValidator>();
+        services.AddScoped<IAuctionService, AuctionService>();
 
         return services;
     }

@@ -1,15 +1,11 @@
 namespace CarAuctionsSystem.Domain.Entities;
 
-public class Auction
+public class Auction(Vehicle vehicle)
 {
-    public Guid Id { get; set; }
-    public Guid VehicleId { get; set; }
-    public decimal Bid { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public Vehicle Vehicle { get; set; } = vehicle;
+    public decimal CurrentBidInEuros { get; set; }
 
-    public Auction(Guid vehicleId)
-    {
-        Id = Guid.NewGuid();
-        VehicleId = vehicleId;
-        Bid = 0;
-    }
+    public DateTime StartTime { get; set; } = DateTime.UtcNow;
+    public DateTime EndTime { get; set; }
 }

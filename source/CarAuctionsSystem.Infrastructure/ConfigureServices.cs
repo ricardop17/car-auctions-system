@@ -9,6 +9,7 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
         services.AddSingleton<IVehicleRepository, VehicleRepository>();
+        services.AddSingleton<IAuctionRepository, AuctionRepository>();
 
         return services;
     }
