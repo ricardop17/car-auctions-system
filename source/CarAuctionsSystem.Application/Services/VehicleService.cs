@@ -44,8 +44,8 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     /// <summary>
     /// Adds a new vehicle.
     /// </summary>
-    public async Task<Vehicle> Add(CreateVehicleDto vehicle)
+    public async Task<Vehicle> Create(CreateVehicleDto vehicle)
     {
-        return await _vehicleRepository.Add(VehicleMapper.Convert(vehicle));
+        return await _vehicleRepository.Create(VehicleMapper.Convert(vehicle));
     }
 }

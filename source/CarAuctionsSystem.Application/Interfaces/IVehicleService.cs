@@ -8,5 +8,5 @@ public interface IVehicleService
     Task<Vehicle?> GetById(string id);
     Task<List<Vehicle>> GetAll();
     Task<List<Vehicle>> Search(SearchVehicleCriteriaDto criteria);
-    Task<Vehicle> Add(CreateVehicleDto vehicle);
+    Task<Vehicle> Create(CreateVehicleDto vehicle);
 }

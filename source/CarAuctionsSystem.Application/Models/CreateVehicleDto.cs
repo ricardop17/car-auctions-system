@@ -1,5 +1,3 @@
-using CarAuctionsSystem.Domain;
-
 namespace CarAuctionsSystem.Application.Models;
 
 public record CreateVehicleDto

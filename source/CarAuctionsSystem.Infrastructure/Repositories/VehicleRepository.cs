@@ -78,7 +78,7 @@ public class VehicleRepository : IVehicleRepository
         return Task.FromResult(result);
     }
 
-    public Task<Vehicle> Add(Vehicle vehicle)
+    public Task<Vehicle> Create(Vehicle vehicle)
     {
         _vehicles.Add(vehicle);
         return Task.FromResult(vehicle);

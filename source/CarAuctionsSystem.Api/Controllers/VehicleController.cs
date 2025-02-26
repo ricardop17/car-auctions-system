@@ -1,5 +1,6 @@
 using CarAuctionsSystem.Application.Interfaces;
 using CarAuctionsSystem.Application.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarAuctionsSystem.Api.Controllers;
@@ -10,11 +11,20 @@ public class VehicleController : ControllerBase
 {
     private readonly ILogger<VehicleController> _logger;
     private readonly IVehicleService _vehicleService;
+    private readonly IValidator<CreateVehicleDto> _createValidator;
+    private readonly IValidator<SearchVehicleCriteriaDto> _searchValidator;
 
-    public VehicleController(ILogger<VehicleController> logger, IVehicleService vehicleService)
+    public VehicleController(
+        ILogger<VehicleController> logger,
+        IVehicleService vehicleService,
+        IValidator<CreateVehicleDto> createValidator,
+        IValidator<SearchVehicleCriteriaDto> searchValidator
+    )
     {
         _logger = logger;
         _vehicleService = vehicleService;
+        _createValidator = createValidator;
+        _searchValidator = searchValidator;
     }
 
     [HttpGet("{id}")]
@@ -52,6 +62,14 @@ public class VehicleController : ControllerBase
     {
         _logger.LogInformation("Search for vehicles");
 
+        var validationResult = _searchValidator.Validate(criteria);
+
+        if (!validationResult.IsValid)
+        {
+            _logger.LogWarning("Invalid search criteria");
+            return BadRequest(validationResult.Errors);
+        }
+
         var vehicles = await _vehicleService.Search(criteria);
 
         _logger.LogInformation("Done searching vehicles");
@@ -64,7 +82,15 @@ public class VehicleController : ControllerBase
     {
         _logger.LogInformation("Starting to create a new vehicle");
 
-        var vehicle = await _vehicleService.Add(createVehicleDto);
+        var validationResult = _createValidator.Validate(createVehicleDto);
+
+        if (!validationResult.IsValid)
+        {
+            _logger.LogWarning("Invalid vehicle data");
+            return BadRequest(validationResult.Errors);
+        }
+
+        var vehicle = await _vehicleService.Create(createVehicleDto);
 
         if (vehicle == null)
         {

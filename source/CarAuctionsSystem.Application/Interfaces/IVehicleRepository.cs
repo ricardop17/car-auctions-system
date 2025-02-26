@@ -8,5 +8,5 @@ public interface IVehicleRepository
     Task<Vehicle?> GetById(string id);
     Task<List<Vehicle>> GetAll();
     Task<List<Vehicle>> Search(string? type, string? manufacturer, string? model, int? year);
-    Task<Vehicle> Add(Vehicle vehicle);
+    Task<Vehicle> Create(Vehicle vehicle);
 }
