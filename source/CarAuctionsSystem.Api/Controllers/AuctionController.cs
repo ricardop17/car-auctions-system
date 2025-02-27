@@ -70,7 +70,7 @@ public class AuctionController : ControllerBase
         return Ok(new ResultDto<Auction> { StatusCode = 201, Content = auction });
     }
 
-    [HttpPost("stop/{auctionId}")]
+    [HttpPut("stop/{auctionId}")]
     public async Task<ActionResult> Stop(string auctionId)
     {
         _logger.LogInformation("Stopping auction with id: {auctionId}", auctionId);
@@ -82,7 +82,7 @@ public class AuctionController : ControllerBase
         return Ok(new ResultDto<Auction> { StatusCode = 204, Content = auction });
     }
 
-    [HttpPost("bid/{auctionId}")]
+    [HttpPut("bid/{auctionId}")]
     public async Task<ActionResult> Bid(string auctionId, PlaceBidDto placeBidDto)
     {
         _logger.LogInformation("Placing a bid for auction with id: {auctionId}", auctionId);
