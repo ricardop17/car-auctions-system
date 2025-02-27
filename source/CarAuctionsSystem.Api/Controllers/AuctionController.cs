@@ -1,4 +1,6 @@
 using CarAuctionsSystem.Application.Interfaces;
+using CarAuctionsSystem.Application.Models;
+using CarAuctionsSystem.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarAuctionsSystem.Api.Controllers;
@@ -44,5 +46,20 @@ public class AuctionController : ControllerBase
         _logger.LogInformation("Done getting all auctions");
 
         return Ok(auctions);
+    }
+
+    [HttpPost("start")]
+    public async Task<ActionResult> Start(string vehicleId)
+    {
+        _logger.LogInformation("Starting auction for vehicle with id: {vehicleId}", vehicleId);
+
+        var auction = await _auctionService.Start(vehicleId);
+
+        _logger.LogInformation(
+            "Finished starting auction for vehicle with id: {vehicleId}",
+            vehicleId
+        );
+
+        return Ok(new ResultDto<Auction> { StatusCode = 200, Content = auction });
     }
 }

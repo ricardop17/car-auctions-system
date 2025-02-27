@@ -1,5 +1,6 @@
 using System.Net;
 using CarAuctionsSystem.Application.Models;
+using CarAuctionsSystem.Domain.Exceptions;
 
 namespace CarAuctionsSystem.Api.Middlewares;
 
@@ -14,6 +15,11 @@ public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDel
         {
             await _next(context);
         }
+        catch (InvalidStartAuctionRequestException iex)
+        {
+            _logger.LogError("Message : {message}", iex.Message);
+            await HandleInvalidAuctionRequestAsync(context, iex);
+        }
         catch (Exception ex)
         {
             _logger.LogError("Message : {message}", ex.Message);
@@ -25,6 +31,23 @@ public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDel
     {
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var result = new ResultDto<string?>
+        {
+            StatusCode = context.Response.StatusCode,
+            Error = exception.Message,
+        }.ToJson();
+
+        await context.Response.WriteAsync(result);
+    }
+
+    private static async Task HandleInvalidAuctionRequestAsync(
+        HttpContext context,
+        InvalidStartAuctionRequestException exception
+    )
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
         var result = new ResultDto<string?>
         {

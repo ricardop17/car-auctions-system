@@ -16,4 +16,13 @@ public class AuctionRepository : IAuctionRepository
     {
         return Task.FromResult(_auctions);
     }
+
+    public Task<Auction> Create(Vehicle vehicle)
+    {
+        var auction = new Auction(vehicle);
+
+        _auctions.Add(auction);
+
+        return Task.FromResult(auction);
+    }
 }
