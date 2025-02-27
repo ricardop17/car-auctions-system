@@ -4,14 +4,17 @@ using CarAuctionsSystem.Domain;
 using CarAuctionsSystem.Domain.Entities;
 using CarAuctionsSystem.Domain.Exceptions;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace CarAuctionsSystem.Application.Services;
 
 public class AuctionService(
+    ILogger<AuctionService> logger,
     IAuctionRepository auctionRepository,
     IVehicleRepository vehicleRepository
 ) : IAuctionService
 {
+    private readonly ILogger<AuctionService> _logger = logger;
     private readonly IAuctionRepository _auctionRepository = auctionRepository;
     private readonly IVehicleRepository _vehicleRepository = vehicleRepository;
 
@@ -37,6 +40,8 @@ public class AuctionService(
     /// </summary>
     public async Task<Auction> Start(string vehicleId)
     {
+        _logger.LogDebug("Starting auction for vehicle with id {vehicleId}", vehicleId);
+
         var vehicle = await _vehicleRepository.GetById(vehicleId);
 
         if (vehicle is null)
@@ -57,6 +62,8 @@ public class AuctionService(
 
         var auction = await _auctionRepository.Create(vehicle);
 
+        _logger.LogInformation("Auction for vehicle with id {vehicleId} started", vehicleId);
+
         return auction;
     }
 
@@ -65,6 +72,8 @@ public class AuctionService(
     /// </summary>
     public async Task<Auction> Stop(string auctionId)
     {
+        _logger.LogDebug("Stopping auction with id {auctionId}", auctionId);
+
         var auction = await _auctionRepository.GetById(auctionId);
 
         if (auction is null)
@@ -85,7 +94,11 @@ public class AuctionService(
             ? AuctionStatus.Sold
             : AuctionStatus.Unsold;
 
-        return await _auctionRepository.Update(auction);
+        auction = await _auctionRepository.Update(auction);
+
+        _logger.LogDebug("Auction with id {auctionId} stopped", auctionId);
+
+        return auction;
     }
 
     /// <summary>
@@ -93,6 +106,8 @@ public class AuctionService(
     /// </summary>
     public async Task<Auction> Bid(string auctionId, PlaceBidDto bidDto)
     {
+        _logger.LogDebug("Placing bid for auction with id {auctionId}", auctionId);
+
         var auction = await _auctionRepository.GetById(auctionId);
 
         if (auction is null)
@@ -123,6 +138,10 @@ public class AuctionService(
 
         auction.CurrentBidInEuros = bidDto.AmountInEuros;
 
-        return await _auctionRepository.Update(auction);
+        auction = await _auctionRepository.Update(auction);
+
+        _logger.LogDebug("Bid placed for auction with id {auctionId}", auctionId);
+
+        return auction;
     }
 }

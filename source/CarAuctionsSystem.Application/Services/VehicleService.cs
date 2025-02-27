@@ -2,14 +2,17 @@ using CarAuctionsSystem.Application.Helpers;
 using CarAuctionsSystem.Application.Interfaces;
 using CarAuctionsSystem.Application.Models;
 using CarAuctionsSystem.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace CarAuctionsSystem.Application.Services;
 
 /// <summary>
 /// This class is responsible for handling vehicle-related operations.
 /// </summary>
-public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleService
+public class VehicleService(ILogger<VehicleService> logger, IVehicleRepository vehicleRepository)
+    : IVehicleService
 {
+    private readonly ILogger<VehicleService> _logger = logger;
     private readonly IVehicleRepository _vehicleRepository = vehicleRepository;
 
     /// <summary>
@@ -17,6 +20,8 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     /// </summary>
     public async Task<Vehicle?> GetById(string id)
     {
+        _logger.LogDebug("Retrieving vehicle with ID {id}", id);
+
         return await _vehicleRepository.GetById(id);
     }
 
@@ -25,6 +30,8 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     /// </summary>
     public async Task<List<Vehicle>> GetAll()
     {
+        _logger.LogDebug("Retrieving all vehicles");
+
         return await _vehicleRepository.GetAll();
     }
 
@@ -33,6 +40,8 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     /// </summary>
     public async Task<List<Vehicle>> Search(SearchVehicleCriteriaDto criteria)
     {
+        _logger.LogDebug("Searching for vehicles with criteria");
+
         return await _vehicleRepository.Search(
             criteria.Type,
             criteria.Manufacturer,
@@ -46,6 +55,8 @@ public class VehicleService(IVehicleRepository vehicleRepository) : IVehicleServ
     /// </summary>
     public async Task<Vehicle> Create(CreateVehicleDto vehicle)
     {
+        _logger.LogDebug("Creating a new vehicle");
+
         return await _vehicleRepository.Create(VehicleMapper.Convert(vehicle));
     }
 }
