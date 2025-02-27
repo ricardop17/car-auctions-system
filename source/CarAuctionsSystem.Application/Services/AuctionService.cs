@@ -40,7 +40,7 @@ public class AuctionService(
 
         if (vehicle is null)
         {
-            throw new InvalidStartAuctionRequestException($"Vehicle with id {vehicleId} not found");
+            throw new InvalidAuctionRequestException($"Vehicle with id {vehicleId} not found");
         }
 
         var anyBiddingAuction = (await _auctionRepository.GetAll()).Where(a =>
@@ -49,7 +49,7 @@ public class AuctionService(
 
         if (anyBiddingAuction.Any())
         {
-            throw new InvalidStartAuctionRequestException(
+            throw new InvalidAuctionRequestException(
                 $"There is already an auction for vehicle with id {vehicleId}"
             );
         }
@@ -57,5 +57,30 @@ public class AuctionService(
         var auction = await _auctionRepository.Create(vehicle);
 
         return auction;
+    }
+
+    public async Task<Auction> Stop(string auctionId)
+    {
+        var auction = await _auctionRepository.GetById(auctionId);
+
+        if (auction is null)
+        {
+            throw new InvalidAuctionRequestException($"Auction with id {auctionId} not found");
+        }
+
+        if (auction.Status != AuctionStatus.Bidding)
+        {
+            throw new InvalidAuctionRequestException(
+                $"Auction with id {auctionId} is not in bidding status"
+            );
+        }
+
+        // update auction accordingly
+        auction.EndTime = DateTime.UtcNow;
+        auction.Status = auction.CurrentBidInEuros.HasValue
+            ? AuctionStatus.Sold
+            : AuctionStatus.Unsold;
+
+        return await _auctionRepository.Update(auction);
     }
 }

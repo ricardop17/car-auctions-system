@@ -15,7 +15,7 @@ public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDel
         {
             await _next(context);
         }
-        catch (InvalidStartAuctionRequestException iex)
+        catch (InvalidAuctionRequestException iex)
         {
             _logger.LogError("Message : {message}", iex.Message);
             await HandleInvalidAuctionRequestAsync(context, iex);
@@ -43,7 +43,7 @@ public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDel
 
     private static async Task HandleInvalidAuctionRequestAsync(
         HttpContext context,
-        InvalidStartAuctionRequestException exception
+        InvalidAuctionRequestException exception
     )
     {
         context.Response.ContentType = "application/json";

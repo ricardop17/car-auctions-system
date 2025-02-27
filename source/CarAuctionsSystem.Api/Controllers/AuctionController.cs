@@ -60,6 +60,18 @@ public class AuctionController : ControllerBase
             vehicleId
         );
 
-        return Ok(new ResultDto<Auction> { StatusCode = 200, Content = auction });
+        return Ok(new ResultDto<Auction> { StatusCode = 201, Content = auction });
+    }
+
+    [HttpPost("stop")]
+    public async Task<ActionResult> Stop(string auctionId)
+    {
+        _logger.LogInformation("Stopping auction with id: {auctionId}", auctionId);
+
+        var auction = await _auctionService.Stop(auctionId);
+
+        _logger.LogInformation("Finished stopping auction with id: {auctionId}", auctionId);
+
+        return Ok(new ResultDto<Auction> { StatusCode = 204, Content = auction });
     }
 }

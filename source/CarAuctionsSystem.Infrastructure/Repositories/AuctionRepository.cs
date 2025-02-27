@@ -25,4 +25,15 @@ public class AuctionRepository : IAuctionRepository
 
         return Task.FromResult(auction);
     }
+
+    public Task<Auction> Update(Auction updatedAuction)
+    {
+        var index = _auctions.FindIndex(a => a.Id == updatedAuction.Id);
+
+        if (index == -1)
+            throw new InvalidOperationException($"Auction with id {updatedAuction.Id} not found");
+
+        _auctions[index] = updatedAuction;
+        return Task.FromResult(updatedAuction);
+    }
 }
