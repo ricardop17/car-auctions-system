@@ -1,6 +1,7 @@
 using CarAuctionsSystem.Application.Interfaces;
 using CarAuctionsSystem.Application.Models;
 using CarAuctionsSystem.Domain.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarAuctionsSystem.Api.Controllers;
@@ -11,11 +12,17 @@ public class AuctionController : ControllerBase
 {
     private readonly ILogger<AuctionController> _logger;
     private readonly IAuctionService _auctionService;
+    private readonly IValidator<PlaceBidDto> _bidValidator;
 
-    public AuctionController(ILogger<AuctionController> logger, IAuctionService auctionService)
+    public AuctionController(
+        ILogger<AuctionController> logger,
+        IAuctionService auctionService,
+        IValidator<PlaceBidDto> bidValidator
+    )
     {
         _logger = logger;
         _auctionService = auctionService;
+        _bidValidator = bidValidator;
     }
 
     [HttpGet("{id}")]
@@ -48,7 +55,7 @@ public class AuctionController : ControllerBase
         return Ok(auctions);
     }
 
-    [HttpPost("start")]
+    [HttpPost("start/{vehicleId}")]
     public async Task<ActionResult> Start(string vehicleId)
     {
         _logger.LogInformation("Starting auction for vehicle with id: {vehicleId}", vehicleId);
@@ -63,7 +70,7 @@ public class AuctionController : ControllerBase
         return Ok(new ResultDto<Auction> { StatusCode = 201, Content = auction });
     }
 
-    [HttpPost("stop")]
+    [HttpPost("stop/{auctionId}")]
     public async Task<ActionResult> Stop(string auctionId)
     {
         _logger.LogInformation("Stopping auction with id: {auctionId}", auctionId);
@@ -71,6 +78,29 @@ public class AuctionController : ControllerBase
         var auction = await _auctionService.Stop(auctionId);
 
         _logger.LogInformation("Finished stopping auction with id: {auctionId}", auctionId);
+
+        return Ok(new ResultDto<Auction> { StatusCode = 204, Content = auction });
+    }
+
+    [HttpPost("bid/{auctionId}")]
+    public async Task<ActionResult> Bid(string auctionId, PlaceBidDto placeBidDto)
+    {
+        _logger.LogInformation("Placing a bid for auction with id: {auctionId}", auctionId);
+
+        var bidValidation = await _bidValidator.ValidateAsync(placeBidDto);
+
+        if (!bidValidation.IsValid)
+        {
+            _logger.LogWarning("Invalid bid data: {errors}", bidValidation.Errors);
+            return BadRequest(bidValidation.Errors);
+        }
+
+        var auction = await _auctionService.Bid(auctionId, placeBidDto);
+
+        _logger.LogInformation(
+            "Finished placing a bid for auction with id: {auctionId}",
+            auctionId
+        );
 
         return Ok(new ResultDto<Auction> { StatusCode = 204, Content = auction });
     }

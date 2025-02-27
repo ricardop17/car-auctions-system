@@ -1,4 +1,5 @@
 using CarAuctionsSystem.Application.Interfaces;
+using CarAuctionsSystem.Application.Models;
 using CarAuctionsSystem.Domain;
 using CarAuctionsSystem.Domain.Entities;
 using CarAuctionsSystem.Domain.Exceptions;
@@ -59,6 +60,9 @@ public class AuctionService(
         return auction;
     }
 
+    /// <summary>
+    /// Stops an auction by id
+    /// </summary>
     public async Task<Auction> Stop(string auctionId)
     {
         var auction = await _auctionRepository.GetById(auctionId);
@@ -80,6 +84,44 @@ public class AuctionService(
         auction.Status = auction.CurrentBidInEuros.HasValue
             ? AuctionStatus.Sold
             : AuctionStatus.Unsold;
+
+        return await _auctionRepository.Update(auction);
+    }
+
+    /// <summary>
+    /// Bids on an auction by id
+    /// </summary>
+    public async Task<Auction> Bid(string auctionId, PlaceBidDto bidDto)
+    {
+        var auction = await _auctionRepository.GetById(auctionId);
+
+        if (auction is null)
+        {
+            throw new InvalidAuctionRequestException($"Auction with id {auctionId} not found");
+        }
+
+        if (auction.Status != AuctionStatus.Bidding)
+        {
+            throw new InvalidAuctionRequestException(
+                $"Auction with id {auctionId} is not in bidding status"
+            );
+        }
+
+        if (bidDto.AmountInEuros < auction.Vehicle.StartingBidInEuros)
+        {
+            throw new InvalidAuctionRequestException(
+                $"Bid amount must be greater than starting bid amount for vehicle {auction.Vehicle.Id}"
+            );
+        }
+
+        if (auction.CurrentBidInEuros.HasValue && bidDto.AmountInEuros <= auction.CurrentBidInEuros)
+        {
+            throw new InvalidAuctionRequestException(
+                $"Bid amount must be greater than current bid amount: {auction.CurrentBidInEuros}"
+            );
+        }
+
+        auction.CurrentBidInEuros = bidDto.AmountInEuros;
 
         return await _auctionRepository.Update(auction);
     }
